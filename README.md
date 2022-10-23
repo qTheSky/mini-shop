@@ -1,4 +1,5 @@
-implementation of example online shop with cart
+implementation of example online shop with cart.
+
 used technologies: React, React Router Dom, ReduxToolkit, Material UI, Formik.
 
 main page
