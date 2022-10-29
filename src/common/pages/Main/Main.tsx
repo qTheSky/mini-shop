@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Container, Grid} from '@mui/material';
 import {useAppDispatch, useAppSelector} from 'app/store';
-import {CardItem} from 'common/components/Card/CardItem';
+import {CardItem} from 'features/items/CardItem';
 import {fetchItems} from 'features/items/items-reducer';
 
 
