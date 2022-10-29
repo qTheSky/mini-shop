@@ -1,9 +1,11 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit'
 import {cartReducer} from 'features/cart/cart-reducer';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
+import {itemsReducer} from 'features/items/items-reducer';
 
 export const rootReducer = combineReducers({
 		cart: cartReducer,
+		items: itemsReducer,
 })
 
 export const store = configureStore({
