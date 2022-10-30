@@ -3,9 +3,10 @@ import {Container, IconButton} from '@mui/material';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import {Link, useLocation} from 'react-router-dom';
 import {useAppSelector} from 'app/store';
+import {getTotalPrice} from "../../../features/cart/selectors";
 
 export const Header = () => {
-    const totalPrice = useAppSelector(state => state.cart.totalPrice)
+    const totalPrice = useAppSelector(getTotalPrice)
     const {pathname} = useLocation()
     return (
         <header style={{

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Header} from 'common/components/Header/Header';
 import {Route, Routes} from 'react-router-dom';
-import {Main} from 'common/pages/Main/Main';
+import {MainPage} from 'features/items/MainPage';
 import {Cart} from 'features/cart/Cart';
 
 export const App = () => {
@@ -9,7 +9,7 @@ export const App = () => {
 				<>
 						<Header/>
 						<Routes>
-								<Route index path="/" element={<Main/>}/>
+								<Route index path="/" element={<MainPage/>}/>
 								<Route path="/cart" element={<Cart/>}/>
 						</Routes>
 				</>

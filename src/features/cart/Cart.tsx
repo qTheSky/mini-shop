@@ -1,64 +1,46 @@
-import React from 'react';
-import {Button, Container, IconButton, Paper} from '@mui/material';
+import React, {useEffect} from 'react';
+import {Button, Container} from '@mui/material';
 import {useAppDispatch, useAppSelector} from 'app/store';
-import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
-import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
-import {addItemToCart, CartItemType, minusItem} from 'features/cart/cart-reducer';
+import {clearCart} from 'features/cart/cart-reducer';
 import {OrderForm} from "./OrderForm";
-import {Link} from "react-router-dom";
+import {CartItemsArea} from "./CartItemsArea";
+import {EmptyCart} from "./EmptyCart";
+import {getCartItems, getTotalPrice} from "./selectors";
 
 export const Cart = () => {
     const dispatch = useAppDispatch()
-    const cartItems = useAppSelector(state => state.cart.items)
-    const totalPrice = useAppSelector(state => state.cart.totalPrice)
-    const minusItemHandle = (id: string) => {
-        dispatch(minusItem(id))
+    const cartItems = useAppSelector(getCartItems)
+    const totalPrice = useAppSelector(getTotalPrice)
+
+    const onClickClearCart = () => {
+        if (window.confirm('Вы действительно хотите очистить корзину?')) {
+            dispatch(clearCart())
+        }
     }
-    const addItemHandle = (cartItem: CartItemType) => {
-        dispatch(addItemToCart(cartItem))
-    }
+
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cartItems))
+    }, [cartItems])
+
     return (
-        <div>
+        <div style={{padding: '10px'}}>
             <Container>
                 {cartItems.length > 0
                     ? <>
-                        <div style={{display: 'flex', padding: '20px', justifyContent: 'space-between',}}>
-                            <div style={{width: '65%', display: 'flex', flexDirection: 'column', gap: '10px'}}>
-                                {cartItems.map(cartItem => (
-                                    <Paper sx={{display: 'flex', padding: '5px', justifyContent: 'space-between'}}>
-                                        <div style={{display: 'flex', gap: '10px'}}>
-                                            <img style={{height: '100px', width: '100px', objectFit: 'contain'}}
-                                                 src={cartItem.imageUrl}
-                                                 alt="cart item image"/>
-                                            <div style={{display: 'flex', flexDirection: 'column'}}>
-                                                <h2>{cartItem.name}</h2>
-                                                <span>{cartItem.description}</span>
-                                                <span>{cartItem.price}$</span>
-                                            </div>
-                                        </div>
-                                        <div style={{width: '100px'}}>
-                                            <IconButton onClick={() => minusItemHandle(cartItem.id)}>
-                                                <RemoveCircleOutlineOutlinedIcon/>
-                                            </IconButton>
-                                            {cartItem.count}
-                                            <IconButton onClick={() => addItemHandle(cartItem)}>
-                                                <AddBoxOutlinedIcon/>
-                                            </IconButton>
-                                        </div>
-                                    </Paper>)
-                                )}
-                            </div>
+                        <div style={{display: 'flex', justifyContent: 'space-between',}}>
+                            <CartItemsArea cartItems={cartItems}/>
                             <OrderForm/>
                         </div>
-                        <h2>TOTAL: {totalPrice}$</h2></>
-                    : <div style={{marginTop: '10%', textAlign: 'center'}}>
-                        <h1>Корзина пустая, добавьте товары и
-                            возвращайтесь
-                            сюда :)</h1>
-                        <Link to='/'>
-                            <Button variant='contained'>Вернуться на главную</Button>
-                        </Link>
-                    </div>
+                        <div style={{display: 'flex', gap: '20px'}}>
+                            <h2>TOTAL: {totalPrice}$</h2>
+                            <Button variant='contained'
+                                    color='error'
+                                    onClick={onClickClearCart}>
+                                Очистить корзину
+                            </Button>
+                        </div>
+                    </>
+                    : <EmptyCart/>
                 }
             </Container>
         </div>

@@ -6,18 +6,17 @@ import {useAppDispatch, useAppSelector} from 'app/store';
 import {addItemToCart, minusItem} from 'features/cart/cart-reducer';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import {Link} from "react-router-dom";
+import {ItemType} from "./items-reducer";
+import {getCartItemById} from "../cart/selectors";
 
 interface IProps {
-    imageUrl: string
-    name: string
-    price: number
-    description: string
-    id: string
+    item: ItemType
 }
 
-export const CardItem = ({imageUrl, name, price, description, id}: IProps) => {
+export const CardItem = ({item}: IProps) => {
+    const {imageUrl, id, name, description, price} = item
     const dispatch = useAppDispatch()
-    const cartItem = useAppSelector(state => state.cart.items.find(cartItem => cartItem.id === id))
+    const cartItem = useAppSelector(getCartItemById(id))
 
     const addedCount = cartItem ? cartItem.count : 0
     const addItemHandle = () => {
@@ -27,6 +26,7 @@ export const CardItem = ({imageUrl, name, price, description, id}: IProps) => {
     const minusItemHandle = () => {
         dispatch(minusItem(id))
     }
+
     return (
         <Grid item xs>
             <Card sx={{width: 320}}>

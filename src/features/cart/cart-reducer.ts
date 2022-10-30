@@ -25,11 +25,15 @@ const cartSlice = createSlice({
                     : findItem.count--
                 state.totalPrice = calculateTotalPrice(state.items)
             }
-        }
+        },
+        clearCart(state) {
+            state.items = []
+            state.totalPrice = 0
+        },
     },
 })
 
-export const {addItemToCart, minusItem} = cartSlice.actions
+export const {addItemToCart, minusItem, clearCart} = cartSlice.actions
 export const cartReducer = cartSlice.reducer
 
 export type CartItemType = ItemType & {

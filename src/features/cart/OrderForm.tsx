@@ -14,7 +14,12 @@ export const OrderForm = () => {
             phoneNumber: '',
         },
         onSubmit: formData => {
-            console.log({formData, cartItems, totalPrice})
+            // console.log({formData, cartItems, totalPrice})
+            let order = ''
+            for (let i of cartItems) {
+                order = order + ` ${i.name} в количестве ${i.count}шт.`
+            }
+            alert(`FAKE!!!\nУважаемый ${formData.name} ${formData.surname}!\n Ваш заказ: ${order} на общую сумму ${totalPrice}$ будет отправлен по адресу: ${formData.address}`)
         },
     });
     return (
@@ -39,6 +44,7 @@ export const OrderForm = () => {
                 <Button style={{marginTop: '150px'}}
                         fullWidth
                         variant='contained'
+                        disabled={!formik.values.name || !formik.values.phoneNumber}
                         type='submit'>
                     Сделать заказ
                 </Button>
